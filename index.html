@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Design For Change</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="js/MemoryGame.js" type="text/javascript"></script>
+    <script src="js/Card.js" type="text/javascript"></script>
+    <link href="css/MemoryGame.css" type="text/css" rel="stylesheet" />
+  </head>
+  <body>
+  
+  
+    <section id="memory--Select-Age" class="valign-table modal show">
+      <div class="valign-cell">
+        <div class="wrapper">
+		  <h1 style="direction: rtl;">בחר מצב משחק:</h1>
+          <input id="memory--settings-A" type="submit" value="יסודי">
+          <input id="memory--settings-B" type="submit" value="על יסודי">
+      </div>
+    </section>
+
+  <!-- The Modal -->
+<div id="myModal" class="videoBox">
+
+  <!-- Modal content -->
+  <div class="VB-content">
+    <div class="VB-header">
+      <span class="VBclose">&times;</span>
+      <h2>DESIGN FOR CHANGE</h2>
+    </div>
+    <div class="VB-body">
+      <iframe id="player" width="100%" height="100%" src="https://www.youtube.com/embed/" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+    </div>
+    <div class="VB-footer">
+      <h3>.</h3>
+    </div>
+  </div>
+
+</div>
+  
+    <section id="memory--settings-modal" class="valign-table modal show">
+	<img class="icons" src="images\1.png" style="top: 1%; left: 1%; padding-bottom: 100%;">
+	<img class="icons" src="images\2.png" style="top: 1%; right: 1%; padding-bottom: 100%;">
+      <div class="valign-cell">
+        <form>
+    
+    <h1>MIX AND MATCH</h1>
+    <h2>יוצרים שינוי</h2>
+    <table>
+    <tr><td><h3>להרגיש</h3> 
+        <p>כיצד ניתן לעורר השראה בתלמידים לגבי יוצרים שינוי?</p></td>
+    <td><h3>לדמיין</h3>
+        <p>נמצא השראה בסיפורי שינוי שנעשו על ידי ילדים אחרים.</p></td></tr>
+    <tr><td><h3>לעשות</h3>
+        <p>נראה סיפורים של ילדים שמצאו פתרונות לצרכים שהם זיהו.</p></td>
+    <td><h3>לשתף</h3>
+	<p>נבקש מהתלמידים לשתף כיצד התרשמו, להציע פתרונות משלהם ולהצטרף ליוצרים שינוי.</p></td></tr>
+        </table>
+    <h2>איך משחקים?</h2>
+	<p>בוחרים כרטיס 'להרגיש', לוחצים על כרטיס 'לעשות' עם הפתרון שנראה כמתאים לבעיה.    
+    </br>אם הייתה התאמה, אוטומטית יפתח קישור לסרטון הרלוונטי, אם לא, ניתן לנסות שוב.</p>
+          
+          <select id="memory--settings-grid" class="hidden">
+		  <option value="2x4">4x2</option>
+		  <option value="4x2">2x4</option>
+          </select>
+          <input id="memory--settings-reset" type="submit" value="בואו נשחק!">
+        </form>
+      </div>
+	<img class="icons" src="images\3.png" style="bottom: 1%; left: 1%; padding-top: 100%;">
+	<img class="icons" src="images\4.png" style="bottom: 1%; right: 1%; padding-top: 100%;">
+    </section>
+    <section id="memory--end-game-modal" class="valign-table modal">
+      <div class="valign-cell">
+        <div class="wrapper">
+		  <h1 style="direction: ltr;">Yes We Can!</h1>
+		  <img src="images\Logo.png" style="width: 16vw">
+		  <h1>מהו השינוי שלכם?</h1>
+		  <a target="_blank" rel="noopener noreferrer" href="https://www.facebook.com/dfcisrael/"><img src="images\facebook.svg" style="background: white"></a>
+          <a target="_blank" rel="noopener noreferrer" href="https://www.youtube.com/user/dfcisrael"><img src="images\youtube.svg"></a>
+        </br>
+          <input id="memory--settings-reMix" type="submit" value="שחק שוב!">
+          <h2 id="memory--end-game-message"></h2>
+          <h3 id="memory--end-game-score"></h3>
+      </div>
+    </section>
+    <section id="memory--app-container">
+		
+    <ul id="memory--cards">
+    </ul>
+	</section>
+    <section class="memory--menu-bar">
+      <div class="inner">
+        <div class="left"><h1 class="memory--app-name">DESIGN FOR CHANGE</h1></div>
+		<button id="myBtn" class="hidden" style="width: 0px; height: 0px;">O</button>
+        <div class="right"><a href="#settings"><img id="memory--settings-icon" src="images/gear.png" /></a></div>
+      </div>
+    </section>
+    <script src="js/BrowserInterface.js" type="text/javascript"></script>
+	
+	
+	<script>
+// Get the VB
+	var modal = document.getElementById('myModal');
+
+// Get the button that opens the VB
+	var btn = document.getElementById("myBtn");
+
+// Get the <span> element that closes the VB
+	var span = document.getElementsByClassName("VBclose")[0];
+
+// When the user clicks the button, open the VB 
+	btn.onclick = function() {
+    modal.style.display = "block";
+}
+
+// When the user clicks on <span> (x), close the VB
+	span.onclick = function() {
+    modal.style.display = "none";
+	changeSrc("");
+}
+
+// When the user clicks anywhere outside of the VB, close it
+	window.onclick = function(event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+		changeSrc("");
+    }
+}
+
+//change src
+	function changeSrc (vid) {
+	var player = document.getElementById('player');
+	player.src = "https://www.youtube.com/embed/" + vid.toString();
+}
+</script>
+	
+	
+  </body>
+</html>
