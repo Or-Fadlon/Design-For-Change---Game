@@ -92,7 +92,7 @@ const cardsDataList = [
 var MemoryGame = {
   settings: {
     rows: 2,
-    columns: 3,
+    columns: 4,
   },
 
   // Properties that indicate state
@@ -104,7 +104,7 @@ var MemoryGame = {
   /**
    * Modify default settings to start a new game.
    * Both parameters need integers greater than one, and
-   * at least one them  needs to be an even number.
+   * at least one them needs to be an even number.
    *
    * @param {number} columns
    * @param {number} rows
@@ -311,7 +311,7 @@ var MemoryGame = {
             //pop up model video
             var modal = document.getElementById("myModal");
             changeSrc(
-              cardsDataList[this.cards[cardSelection[0]].arrVideo].link
+              cardsDataList[this.cards[cardSelection[0]].arrayIndex].link
             );
             modal.style.display = "block";
 

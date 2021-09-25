@@ -1,42 +1,36 @@
 (function ($) {
   /************ Start hard coded settings ******************/
 
-  // How long a non matching card is displayed once clicked.
-  var nonMatchingCardTime = 800;
+  var nonMatchingCardTime = 800; // How long a non matching card is displayed once clicked.
   var cardSize = 0;
   var cardsBuilt = 0;
+  const gridSize = [2, 4];
 
   /************ End hard coded settings ******************/
 
   // Handle clicking on settings icon
   var settings = document.getElementById("memory--settings-icon");
   var modal = document.getElementById("memory--settings-modal");
-  var handleOpenSettings = function (event) {
+  const enableSettings = function () {
+    var settings = document.getElementById("memory--settings-icon");
+    settings.style.visibility = "inherit";
+  };
+  const handleOpenSettings = function (event) {
     event.preventDefault();
     modal.classList.toggle("show");
   };
   settings.addEventListener("click", handleOpenSettings);
 
-  const enableSettings = function () {
-    var settings = document.getElementById("memory--settings-icon");
-    settings.style.visibility = "inherit";
-  };
-
-  // Handle settings form submission
+  // Handle settings form submit
   var aMode = document.getElementById("memory--settings-A");
   var bMode = document.getElementById("memory--settings-B");
   var reset = document.getElementById("memory--settings-reset");
   var reMix = document.getElementById("memory--settings-reMix");
-  var handleSettingsSubmission = function (event) {
+  const handleStart = function (event) {
     enableSettings();
     event.preventDefault();
 
-    var selectWidget = document
-      .getElementById("memory--settings-grid")
-      .valueOf();
-    var grid = selectWidget.options[selectWidget.selectedIndex].value;
-    var gridValues = grid.split("x");
-    var cards = $.initialize(Number(gridValues[0]), Number(gridValues[1]));
+    var cards = $.initialize(gridSize[0], gridSize[1]);
 
     if (cards) {
       document
@@ -50,23 +44,22 @@
       buildLayout($.cards, $.settings.rows, $.settings.columns);
     }
   };
-
-  var handleModeSelectA = function (event) {
+  const handleModeSelectA = function (event) {
     document.getElementById("memory--Select-Age").classList.remove("show");
     //Aהמקום החשוב ביותר לבחירת מוד
   };
-  var handleModeSelectB = function (event) {
+  const handleModeSelectB = function (event) {
     document.getElementById("memory--Select-Age").classList.remove("show");
     //Bהמקום החשוב ביותר לבחירת מוד
   };
 
   aMode.addEventListener("click", handleModeSelectA);
   bMode.addEventListener("click", handleModeSelectB);
-  reset.addEventListener("click", handleSettingsSubmission);
-  reMix.addEventListener("click", handleSettingsSubmission);
+  reset.addEventListener("click", handleStart);
+  reMix.addEventListener("click", handleStart);
 
   // Handle clicking on card
-  var handleFlipCard = function (event) {
+  const handleSelectCard = function (event) {
     event.preventDefault();
 
     var status = $.play(this.index);
@@ -89,10 +82,6 @@
       var score = parseInt((($.attempts - $.mistakes) / $.attempts) * 100, 10);
       var message = getEndGameMessage(score);
 
-      /*document.getElementById('memory--end-game-message').textContent = message;
-      document.getElementById('memory--end-game-score').textContent =
-          'Score: ' + score + ' / 100';*/
-
       document
         .getElementById("memory--end-game-modal")
         .classList.toggle("show");
@@ -100,7 +89,7 @@
   };
 
   // end message
-  var getEndGameMessage = function (score) {
+  const getEndGameMessage = function (score) {
     var message = "";
 
     if (score == 100) {
@@ -117,7 +106,7 @@
   };
 
   // Build grid of cards
-  var buildLayout = function (cards, rows, columns) {
+  const buildLayout = function (cards, rows, columns) {
     if (!cards.length) {
       return;
     }
@@ -135,18 +124,10 @@
 
     // Clean up. Remove all child nodes and card clicking event listeners.
     while (memoryCards.firstChild) {
-      memoryCards.firstChild.removeEventListener("click", handleFlipCard);
+      memoryCards.firstChild.removeEventListener("click", handleSelectCard);
       memoryCards.removeChild(memoryCards.firstChild);
     }
 
-    /* for (var i = 0; i < rows/2; i++) {
-      for (var j = 0; j < columns/2; j++) {
-        // Use cloneNode(true) otherwise only one node is appended
-        memoryCards.appendChild(buildCardNode(index, cards[index],
-          (100 / columns) + "%", (100 / rows) + "%"), true);
-        index++;
-      }
-    }*/
     cardSize = rows * columns;
     for (var i = 0; i < rows; i++) {
       for (var j = 0; j < columns; j++) {
@@ -191,7 +172,7 @@
   );
 
   // Build single card
-  var buildCardNode = function (index, card, width, height) {
+  const buildCardNode = function (index, card, width, height) {
     var flipContainer = document.createElement("li");
     var flipper = document.createElement("div");
     var front = document.createElement("a");
@@ -235,7 +216,7 @@
     flipper.appendChild(back);
     flipContainer.appendChild(flipper);
 
-    flipContainer.addEventListener("click", handleFlipCard);
+    flipContainer.addEventListener("click", handleSelectCard);
 
     return flipContainer;
   };
